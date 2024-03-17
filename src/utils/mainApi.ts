@@ -30,7 +30,7 @@ class MainApi {
 
   getAge(name: string): Promise<TAge> {
     const queryParams = new URLSearchParams();
-    queryParams.append("name", "test");
+    queryParams.append("name", name);
     return fetch(`${this._ageUrl}?${queryParams.toString()}`, {
       headers: this._headers,
     }).then((res) => this._getRequestResult<TAge>(res));

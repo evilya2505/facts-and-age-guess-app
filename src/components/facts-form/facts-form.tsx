@@ -3,12 +3,12 @@ import {
   FormItem,
   FormLayoutGroup,
   FormStatus,
-  Input,
+  Textarea,
 } from "@vkontakte/vkui";
 import React, { useEffect, useRef } from "react";
 import { useSelector } from "../../services/hooks";
 import { FactsFormValues } from "../../utils/types";
-import { useFieldArray, useForm } from "react-hook-form";
+import { Controller, useForm } from "react-hook-form";
 import { factsFormSchema } from "../../validations/facts-validations";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useDispatch } from "../../services/hooks";
@@ -21,29 +21,38 @@ const FactsForm: React.FC<IFactsFormProps> = (): JSX.Element => {
   const isLoading = useSelector((store) => store.facts.request);
   const isOnError = useSelector((store) => store.facts.requestFailed);
   const dispatch = useDispatch();
+  const factInputRef = useRef<HTMLTextAreaElement>(null);
 
   const form = useForm<FactsFormValues>({
+    defaultValues: {
+      fact: "",
+    },
     resolver: yupResolver(factsFormSchema),
   });
 
-  const { register, handleSubmit, setValue, setFocus } = form;
-  const { ref } = register("fact");
+  const { handleSubmit, setValue, setFocus, control, watch } = form;
+  const watchFact = watch("fact");
 
   useEffect(() => {
     // При получении нового факта, устанавливаем его в значение input
     setValue("fact", fact.fact);
-    // Устанавливаем фокус на инпут
-    setFocus("fact");
-  }, [fact.fact, setFocus, setValue]);
+  }, [fact.fact, setValue]);
 
-  // Получение нового фанкта при нажатии на кнопку "Получить факт"
+  useEffect(() => {
+    // Устанавливаем фокус на инпут
+    if (factInputRef.current && factInputRef.current.value !== "") {
+      factInputRef.current.focus();
+    }
+  }, [watchFact, setValue, setFocus]);
+
+  // Получение нового факта при нажатии на кнопку "Получить факт"
   function onSubmitFunc() {
     dispatch(getFacts());
   }
 
   // Фукнция для установления курсора после первого слова
   const setCursorAfterFirstWord = (
-    event: React.FocusEvent<HTMLInputElement>
+    event: React.FocusEvent<HTMLTextAreaElement>
   ) => {
     const input = event.target;
     const value = input.value;
@@ -57,23 +66,29 @@ const FactsForm: React.FC<IFactsFormProps> = (): JSX.Element => {
 
   return (
     <form onSubmit={handleSubmit(onSubmitFunc)} noValidate>
-      <FormLayoutGroup
-        style={{ maxWidth: "1000px", margin: "0 auto" }}
-        mode="vertical"
-      >
+      <FormLayoutGroup style={{ margin: "0 auto" }} mode="vertical">
         {isOnError && (
           <FormStatus mode="error">
             Прозошла ошибка. Попробуйте снова.
           </FormStatus>
         )}
 
-        <FormItem style={{ padding: "20px 0 10px" }} htmlFor="fact">
-          <Input
-            getRef={ref}
-            type="text"
-            placeholder={"Рандомный факт"}
-            disabled={isLoading}
-            onFocus={(e) => setCursorAfterFirstWord(e)} // При фокусе выставлять курсор после первого слова
+        <FormItem style={{ padding: "20px 15px 10px" }} htmlFor="fact">
+          <Controller
+            name="fact"
+            control={control}
+            render={({ field: { onChange, value, onBlur, ref } }) => (
+              <Textarea
+                getRef={factInputRef}
+                id="fact"
+                placeholder={"Рандомный факт"}
+                disabled={isLoading}
+                value={value}
+                onBlur={onBlur}
+                onChange={onChange}
+                onFocus={(e) => setCursorAfterFirstWord(e)} // При фокусе выставлять курсор после первого слова
+              />
+            )}
           />
         </FormItem>
 

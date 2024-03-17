@@ -1,5 +1,4 @@
-import React, { useEffect, useState } from "react";
-import appStyles from "./app.module.css";
+import { useState } from "react";
 import {
   AppRoot,
   SplitLayout,
@@ -11,29 +10,21 @@ import {
   PanelHeader,
   Tabs,
   TabsItem,
-  Text,
 } from "@vkontakte/vkui";
 import FactsForm from "../facts-form/facts-form";
-import { useDispatch, useSelector } from "../../services/hooks";
-import { getFacts } from "../../services/actions/facts";
 import AgeForm from "../age-form/age-form";
-import mainApi from "../../utils/mainApi";
-import { getAge } from "../../services/actions/age";
 
 function App() {
-  const dispatch = useDispatch();
-  const age = useSelector((store) => store.age.age);
-  const [activePanel, setActivePanel] = useState("facts");
-  useEffect(() => {
-    dispatch(getAge("test"));
-  }, [dispatch]);
+  const [activeGroup, setActiveGroup] = useState("facts");
+
   return (
     <AppRoot>
       <SplitLayout
         style={{
+          boxSizing: "border-box",
           maxWidth: "1200px",
           margin: "0 auto",
-          padding: "20px 10px",
+          padding: "20px 10px 0",
         }}
       >
         <SplitCol autoSpaced>
@@ -42,22 +33,24 @@ function App() {
               <PanelHeader transparent={true} fixed={false}>
                 <Tabs>
                   <TabsItem
+                    id="tab-content-facts"
                     aria-controls="tab-content-facts"
-                    selected={activePanel === "facts"}
-                    onClick={() => setActivePanel("facts")}
+                    selected={activeGroup === "facts"}
+                    onClick={() => setActiveGroup("facts")}
                   >
                     Факты
                   </TabsItem>
                   <TabsItem
+                    id="tab-content-age"
                     aria-controls="tab-content-age"
-                    selected={activePanel === "age"}
-                    onClick={() => setActivePanel("age")}
+                    selected={activeGroup === "age"}
+                    onClick={() => setActiveGroup("age")}
                   >
                     Возраст
                   </TabsItem>
                 </Tabs>
               </PanelHeader>
-              {activePanel === "facts" && (
+              {activeGroup === "facts" && (
                 <Group
                   id="tab-content-facts"
                   header={<Header mode="secondary">Факты</Header>}
@@ -65,16 +58,13 @@ function App() {
                   <FactsForm />
                 </Group>
               )}
-              {activePanel === "age" && (
+              {activeGroup === "age" && (
                 <Group
                   id="tab-content-age"
                   header={
                     <Header mode="secondary">Узнать возраст по имени</Header>
                   }
                 >
-                  <div>
-                    <Text>Ваш возраст: {age.age}</Text>
-                  </div>
                   <AgeForm />
                 </Group>
               )}

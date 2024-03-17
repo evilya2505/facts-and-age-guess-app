@@ -2,13 +2,13 @@ import { PayloadAction, createSlice } from "@reduxjs/toolkit";
 import { TAge } from "../../utils/types";
 
 export interface TAgeListState {
-  age: TAge;
+  age: TAge | null;
   request: boolean;
   requestFailed: boolean;
 }
 
 export const initialState: TAgeListState = {
-  age: { count: 0, name: "", age: 0 },
+  age: null,
   request: false,
   requestFailed: false,
 };
