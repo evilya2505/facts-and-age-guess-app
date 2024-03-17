@@ -40,7 +40,7 @@
 
 ## Ссылка на Vercel
 
-[https://groups-page.vercel.app/](https://groups-page.vercel.app/)
+[https://vercel.com/evilya2505/facts-and-age-guess-app](https://vercel.com/evilya2505/facts-and-age-guess-app/)
 
 ## Ссылка на мини-приложение
 

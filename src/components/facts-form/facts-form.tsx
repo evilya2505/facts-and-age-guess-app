@@ -6,12 +6,11 @@ import {
   Textarea,
 } from "@vkontakte/vkui";
 import React, { useEffect, useRef } from "react";
-import { useSelector } from "../../services/hooks";
-import { FactsFormValues } from "../../utils/types";
 import { Controller, useForm } from "react-hook-form";
-import { factsFormSchema } from "../../validations/facts-validations";
 import { yupResolver } from "@hookform/resolvers/yup";
-import { useDispatch } from "../../services/hooks";
+import { useSelector, useDispatch } from "../../services/hooks";
+import { FactsFormValues } from "../../utils/types";
+import { factsFormSchema } from "../../validations/facts-validations";
 import { getFacts } from "../../services/actions/facts";
 
 interface IFactsFormProps {}

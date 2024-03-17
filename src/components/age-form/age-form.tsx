@@ -1,19 +1,19 @@
-import { yupResolver } from "@hookform/resolvers/yup";
-import {
-  FormLayoutGroup,
-  FormStatus,
-  FormItem,
-  Input,
-  Button,
-  Text,
-  Div,
-} from "@vkontakte/vkui";
-import React, { useEffect, useRef } from "react";
 import { Controller, useForm } from "react-hook-form";
 import { useDispatch, useSelector } from "../../services/hooks";
+import { yupResolver } from "@hookform/resolvers/yup";
+import {
+  Button,
+  Div,
+  FormItem,
+  FormLayoutGroup,
+  FormStatus,
+  Input,
+  Text,
+} from "@vkontakte/vkui";
+import React, { useEffect, useRef } from "react";
 import { NameFormValues } from "../../utils/types";
-import { nameFormSchema } from "../../validations/name-validations";
 import { getAge } from "../../services/actions/age";
+import { nameFormSchema } from "../../validations/name-validations";
 
 interface IAgeFormProps {}
 

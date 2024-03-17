@@ -1,18 +1,18 @@
 import { useState } from "react";
 import {
   AppRoot,
-  SplitLayout,
-  SplitCol,
-  View,
-  Panel,
   Group,
   Header,
+  Panel,
   PanelHeader,
+  SplitCol,
+  SplitLayout,
   Tabs,
   TabsItem,
+  View,
 } from "@vkontakte/vkui";
-import FactsForm from "../facts-form/facts-form";
 import AgeForm from "../age-form/age-form";
+import FactsForm from "../facts-form/facts-form";
 
 function App() {
   const [activeGroup, setActiveGroup] = useState("facts");
